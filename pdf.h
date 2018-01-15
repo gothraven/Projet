@@ -11,6 +11,7 @@ typedef struct object pdf_object_t;
 typedef struct object_dict pdf_dict_t;
 typedef struct object_tab pdf_tab_t;
 typedef struct object_stream pdf_stream_t;
+typedef struct object_pdf pdf_t;
 
 struct object_dict
 {
@@ -29,6 +30,7 @@ struct object_stream
 {
 	pdf_object_t* dict;
 	void* valeur;
+  size_t size;
 };
 
 struct object
@@ -58,6 +60,14 @@ struct object
 	};
 };
 
+struct object_pdf
+{
+  unsigned int w; //largeur
+  unsigned int h; //hauteur
+  unsigned int taille; //taille de tableau
+  struct object** tab_objs; //tableau des objets pdf
+};
+
 void pdf_object_free(pdf_object_t* o);
 void pdf_stream_free(pdf_object_t* o);
 void pdf_dict_free(pdf_object_t* o);
@@ -72,17 +82,21 @@ pdf_object_t* pdf_string(pdf_object_t* o, const char* s);
 pdf_object_t* pdf_stream(pdf_object_t* o, size_t sz, void* data);
 pdf_object_t* pdf_array(pdf_object_t* o, size_t n);
 pdf_object_t* pdf_dictionary(pdf_object_t* o);
+pdf_object_t* pdf_stream_from_file(pdf_object_t* o, const char* fname);
+pdf_object_t* pdf_stream_from_string(pdf_object_t* o, const char* str);
+pdf_object_t* pdf_array_get(pdf_object_t* a, size_t i);
+pdf_object_t* pdf_dict_get(pdf_object_t* d, const char* cle);
+size_t pdf_fprint_object(FILE* fd, pdf_object_t* o);
+size_t  pdf_dict_fprint(FILE* fd, pdf_dict_t* dict);
+void pdf_set_content(pdf_t* p, unsigned int n, const char* instr);
+const char* pdf_load_image(pdf_t* p, const char* fname);
 
+size_t  pdf_tab_fprint(FILE* fd, pdf_tab_t* tab);
+size_t  pdf_stream_fprint(FILE* fd, pdf_stream_t* stream);
+pdf_object_t* pdf_default_fonts(pdf_object_t* f);
+bool jpeg_info(const void* i, size_t* width, size_t* height, size_t* bpc, const char** cs);
+void pdf_delete(pdf_t* p);
+size_t pdf_new_id(pdf_t* p);
+void pdf_save(const char* fname, pdf_t* p);
 
-
-/*
-  "font_size": 11,
-  "ignored_packages":
-  [
-    "Vintage"
-  ],
-  "tab_size": 2,
-    "translate_tabs_to_spaces": true,
-    "keys": ["alt+shift+c"], "command": "reindent", "args": {"single_line": false}
-*/
 #endif
