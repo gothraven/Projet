@@ -2,6 +2,10 @@
 #define PDF_H
 
 #include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 
 typedef struct object pdf_object_t;
 typedef struct object_dict pdf_dict_t;
@@ -23,7 +27,7 @@ struct object_tab
 
 struct object_stream
 {
-	struct pdf_object_t* dict;
+	pdf_object_t* dict;
 	void* valeur;
 };
 

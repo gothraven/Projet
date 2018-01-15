@@ -106,7 +106,7 @@ pdf_object_t* pdf_string(pdf_object_t* o, const char* s){
   else
     pdf_object_free(o);
   o->type = string;
-  o->string = strdup(s);  
+  o->string = strdup(s);
   return o;
 }
 
@@ -119,7 +119,7 @@ pdf_object_t* pdf_stream(pdf_object_t* o, size_t sz, void* data){
   o->stream = (pdf_stream_t*)malloc(1 * sizeof(pdf_stream_t));
   pdf_object_t* dict = NULL;
   o->stream->dict = pdf_dictionary(dict);
-  pdf_int(pdf_dict_get(o->stream->dict, "Lenght"), sz);
+  //pdf_int(pdf_dict_get(o->stream->dict, "Lenght"), sz);
   o->stream->valeur = data;
   return o;
 }
@@ -131,7 +131,7 @@ pdf_object_t* pdf_array(pdf_object_t* o, size_t n){
     pdf_object_free(o);
   o->type = tab;
   o->tab = (pdf_tab_t*)malloc(1 * sizeof(pdf_tab_t));
-  o->tab->tab = (pdf_object_t*)malloc(n * sizeof(pdf_object_t));
+  o->tab->tab = (pdf_object_t**)malloc(n * sizeof(pdf_object_t*));
   for (int i = 0; i < n; ++i)
     o->tab->tab[i] = pdf_null(NULL);
   o->tab->size = n;
@@ -145,9 +145,24 @@ pdf_object_t* pdf_dictionary(pdf_object_t* o){
     pdf_object_free(o);
   o->type = dict;
   o->dict = NULL;
-  return o; 
+  return o;
 }
 
 pdf_object_t* pdf_stream_from_file(pdf_object_t* o, const char* fname){
-  
+  FILE* file;
+  char* stream;
+  size_t taile;
+
+  file = fopen(fname, "r");
+  if (file == NULL)
+    exit(EXIT_FAILURE);
+  fseek(fd, 0, SEEK_END); //va a la fin
+  size = ftell(fd); //voir la taille parcouru
+  fseek(fd, 0, SEEK_SET); //revenir au debut
+  stream =
+}
+
+int main(int argc, char const *argv[])
+{
+  return 0;
 }
