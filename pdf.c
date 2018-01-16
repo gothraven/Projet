@@ -35,7 +35,7 @@ void pdf_dict_free(pdf_object_t* o){
 
 void pdf_tab_free(pdf_object_t* o){
   if(o != NULL && o->type == tab){
-    for(int i = 0; i < o->tab->size; i++){
+    for(unsigned int i = 0; i < o->tab->size; i++){
       free(o->tab->tab[i]);
     }
   }
@@ -133,7 +133,7 @@ pdf_object_t* pdf_array(pdf_object_t* o, size_t n){
   o->type = tab;
   o->tab = (pdf_tab_t*)malloc(1 * sizeof(pdf_tab_t));
   o->tab->tab = (pdf_object_t**)malloc(n * sizeof(pdf_object_t*));
-  for (int i = 0; i < n; ++i)
+  for (unsigned int i = 0; i < n; ++i)
     o->tab->tab[i] = pdf_null(NULL);
   o->tab->size = n;
   return o;
@@ -176,8 +176,8 @@ pdf_object_t* pdf_array_get(pdf_object_t* a, size_t i){
     exit(EXIT_FAILURE);
   if (a->type != tab)
     exit(EXIT_FAILURE);
-  pdf_object_t** t = a->tab->tab;
-  if (i < 0 || i >= a->tab->size)
+  //pdf_object_t** t = a->tab->tab;
+  if (i >= a->tab->size)
     exit(EXIT_FAILURE);
   return a->tab->tab[i];
 }
@@ -239,6 +239,8 @@ size_t pdf_fprint_object(FILE* fd, pdf_object_t* o){
     return pdf_tab_fprint(fd, o->tab);
   }else if(o->type ==  dict){
     return pdf_dict_fprint(fd, o->dict);
+  }else{
+    return 0;
   }
 }
 
@@ -254,7 +256,7 @@ size_t  pdf_stream_fprint(FILE* fd, pdf_stream_t* stream){
 size_t  pdf_tab_fprint(FILE* fd, pdf_tab_t* tab){
   size_t nb = 0;
   nb += fputc('[', fd);
-  for(int i = 0; i < tab->size; i++){ //imprimer toutes les objets du tableau
+  for(unsigned int i = 0; i < tab->size; i++){ //imprimer toutes les objets du tableau
     nb += pdf_fprint_object(fd, tab->tab[i]); //verifier en cas la case est null
     if(i < tab->size-1)
       nb += fputc(' ', fd);
@@ -538,7 +540,7 @@ const char* pdf_load_image(pdf_t* p, const char* fname){
   return fname;
 }
 
-int main() {
+/*int main() {
   pdf_t* p = pdf_create(1, 1300, 520);
   const char* im = pdf_load_image(p, "lenna.jpg");
 
@@ -562,4 +564,4 @@ int main() {
   pdf_delete(p);
 
   return EXIT_SUCCESS;
-}
+}*/
