@@ -507,7 +507,7 @@ void pdf_save(const char* fname, pdf_t* p){
 }*/
 
 void pdf_set_content(pdf_t* p, unsigned int n, const char* instr){
-  size_t id = pdf_new_id(pdf);
+  size_t id = pdf_new_id(p);
   //pdf_object_t* ref_content = NULL;
   //4 = neoud de base, n = 0 1er page, n = 1 2eme page ...etc
   /*ref_content = pdf_dict_get(p->tab_objs[4 + n], "Contents")
@@ -520,13 +520,46 @@ void pdf_set_content(pdf_t* p, unsigned int n, const char* instr){
 }
 
 const char* pdf_load_image(pdf_t* p, const char* fname){
-  FILE* im = fopen(fname, "r");
-  if(im == NULL)
-    exit(EXIT_FAILURE);
-
+  size_t id = pdf_new_id(p); //cree un noeud pour l'image
+  p->tab_objs[id] = pdf_stream_from_file(p->tab_objs[id], fname); //recuperer tous les donner de l'image
+  size_t w;
+  size_t h;
+  size_t bpc;
+  const char* c;
+  jpeg_info(p->tab_objs[id]->stream->valeur, &w, &h, &bpc, &c);
+  pdf_name(pdf_dict_get(p->tab_objs[id]->stream->dict, "Type"), "XObject");
+  pdf_name(pdf_dict_get(p->tab_objs[id]->stream->dict, "Subtype"), "Image");
+  pdf_int(pdf_dict_get(p->tab_objs[id]->stream->dict, "Width"), w);
+  pdf_int(pdf_dict_get(p->tab_objs[id]->stream->dict, "Height"), h);
+  pdf_int(pdf_dict_get(p->tab_objs[id]->stream->dict, "BitsPerComponent"), bpc);
+  pdf_name(pdf_dict_get(p->tab_objs[id]->stream->dict, "ColorSpace"), c);
+  pdf_name(pdf_dict_get(p->tab_objs[id]->stream->dict, "Filter"), "DCTDecode");
+  pdf_reference(pdf_dict_get(p->tab_objs[3], fname), id + 1); //3 = index de xobject
+  return fname;
 }
 
-int main(int argc, char const *argv[])
-{
-  return 0;
+int main() {
+  pdf_t* p = pdf_create(1, 1300, 520);
+  const char* im = pdf_load_image(p, "lenna.jpg");
+
+  char* cnt = NULL;
+  asprintf(&cnt,
+    "q 1 0 0 -1 0 520 cm "
+      "q 2 0 0 2 0 0 cm "
+        "q 0 0 1 rg 1 0 0 1 200 130 cm 120 0 0 120 0 0 cm -1 0 m -1 0.553 -0.553 1 0 1 c 0.553 1 1 0.553 1 0 c 1 -0.553 0.553 -1 0 -1 c -0.553 -1 -1 -0.553 -1 0 c F Q "
+        "q 0 0.5 0 rg 1 0 0 1 100 80 cm 0.707 0.707 -0.707 0.707 0 0 cm -50 -35 100 70 re F Q "
+        "q 10 w 1 0 0 RG 1 0 0 1 180 180 cm 0.5 -0.866 0.866 0.5 0 0 cm -100 0 m 100 0 l S Q "
+        "q 1 0 0 1 250 150 cm 0.866 0.5 -0.5 0.866 0 0 cm "
+          "q 1 0 1 rg BT /FV 20. Tf 1 0 0 -1 0 0 Tm (Hello, out there) Tj ET Q "
+          "q 1 0 0 1 50 -120 cm 100 0 0 -100 0 100 cm /%s Do Q "
+        "Q "
+      "Q "
+    "Q ", im);
+  pdf_set_content(p, 0, cnt);
+  free(cnt);
+
+  pdf_save("test.pdf",p);
+  pdf_delete(p);
+
+  return EXIT_SUCCESS;
 }

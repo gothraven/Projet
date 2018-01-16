@@ -1,11 +1,16 @@
 #ifndef PDF_H
 #define PDF_H
 
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE 1
+#endif
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+
 
 typedef struct object pdf_object_t;
 typedef struct object_dict pdf_dict_t;
@@ -98,5 +103,7 @@ bool jpeg_info(const void* i, size_t* width, size_t* height, size_t* bpc, const 
 void pdf_delete(pdf_t* p);
 size_t pdf_new_id(pdf_t* p);
 void pdf_save(const char* fname, pdf_t* p);
+const char* pdf_load_image(pdf_t* p, const char* fname);
+void pdf_set_content(pdf_t* p, unsigned int n, const char* instr);
 
 #endif
