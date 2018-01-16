@@ -1,5 +1,5 @@
 EXEC=svg2pdf
-SOURCES=main.c pdf.c
+SOURCES=main.c pdf.c menu.c
 OBJECTS=$(SOURCES:.c=.o)
 CC=gcc
 CFLAGS=-W -Wall
@@ -8,8 +8,9 @@ CFLAGS=-W -Wall
 
 default: $(EXEC)
 
+menu.o: menu.c menu.h
 pdf.o: pdf.c pdf.h
-main.o: main.c pdf.h
+main.o: main.c pdf.h menu.h
 
 %.o: %.c
 	$(CC) -o $@ -c $< $(CFLAGS)
