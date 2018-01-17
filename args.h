@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 typedef struct args_s{
   const char* key;
@@ -27,6 +28,8 @@ typedef struct args_s{
   } fun;
   struct args_s* next;
 }args_t;
+
+//extern svg_t* svg;
 
 args_t* arg_String(args_t* arg, const char* key, void (*fun)(const char*));
 args_t* arg_Float(args_t* arg, const char* key, void (*fun)(float));

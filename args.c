@@ -133,31 +133,65 @@ void projectArgs(int argc, const char** argv){
 }
 
 void argOpen(const char* fname){
-  printf("ouvrir %s\n",fname);
+  if(strstr(fname, ".svg")!=NULL){
+      printf("ouvrir %s\n",fname);
+    //on va convertir la svg
+  }else{
+    printf("c'est pas un fichier .svg\n");
+  }
 }
 
 void argSave(const char* fname){
-  printf("sauvgarder %s\n",fname);
+  if (true/* svg pas null */) {
+    if(strstr(fname, ".pdf")!=NULL){
+      printf("sauvgarder %s\n",fname);
+      //save en svg
+    }else{
+      printf("c'est pas un fichier .pdf\n");
+    }
+  }else{
+    printf("il n'exist pas de fichier ouvert\n");
+  }
 }
 
 void argCircle(float r){
-  printf("cirlce de rayon %f\n",r);
+  if (true/* svg pas null */) {
+    printf("cirlce de rayon %f\n",r);
+  }else{
+    printf("il n'exist pas de fichier ouvert\n");
+  }
 }
 
 void argRect(float w, float h){
-  printf("rectangle en %f %f\n",w ,h);
+  if (true/* svg pas null */) {
+    printf("rectangle en %f %f\n",w ,h);
+  }else{
+    printf("il n'exist pas de fichier ouvert\n");
+  }
 }
 
 void argLine(float l){
-  printf("line en %f\n",l);
+  if (true/* svg pas null */) {
+    printf("line en %f\n",l);
+  }else{
+    printf("il n'exist pas de fichier ouvert\n");
+  }
 }
 
 void argText(const char* text){
-  printf("text: %s\n",text);
+  if (true/* svg pas null */) {
+    printf("text: %s\n",text);
+  }else{
+    printf("il n'exist pas de fichier ouvert\n");
+  }
 }
 
 void argPhoto(const char* fname){
-  printf("photo: %s\n",fname);
+  if (true/* svg pas null */) {
+    printf("photo: %s\n",fname);
+  }else{
+    printf("il n'exist pas de fichier ouvert\n");
+  }
 }
 
 void argHelp(void){
