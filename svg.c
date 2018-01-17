@@ -29,40 +29,49 @@ coord_t inv_rotate_point(coord_t p, double t){
 
 figure_t circle(double radius){
     figure_t figure;
-    figure.color = strdup("+");
+    figure.color.r = 0;
+    figure.color.g = 0;
+    figure.color.b = 0;
+    figure.color.c = '+';
     figure.centre.x = 0;
     figure.centre.y = 0;
     figure.angle = 0;
     figure.type = CERCLE;
-    figure.figure.cercle = radius * radius;
+    figure.cercle.r = radius * radius;
     return figure;
 }
 
 figure_t rectangle(double width, double height){
     figure_t figure;
-    figure.color = strdup("+");
+    figure.color.r = 0;
+    figure.color.g = 0;
+    figure.color.b = 0;
+    figure.color.c = '+';
     figure.centre.x = 0;
     figure.centre.y = 0;
     figure.angle = 0;
     figure.type = RECTANGLE;
-    figure.figure.rectangle.w = width;
-    figure.figure.rectangle.h = height;
+    figure.rectangle.w = width / 2;
+    figure.rectangle.h = height / 2;
     return figure;
 }
 
 figure_t line(double length){
     figure_t figure;
-    figure.color = strdup("+");
+    figure.color.r = 0;
+    figure.color.g = 0;
+    figure.color.b = 0;
+    figure.color.c = '+';
     figure.centre.x = 0;
     figure.centre.y = 0;
     figure.angle = 0;
     figure.type = LIGNE;
-    figure.figure.length = length;
+    figure.line.l = length;
     return figure;
 }
 
-figure_t color(figure_t f, color_t c){
-    f.color = strdup(c);
+figure_t color(figure_t f, char c){
+    f.color.c = c;
     return f;
 }
 
@@ -76,3 +85,24 @@ figure_t rotate(figure_t f, double dt){
     f.angle += dt;
     return f;
 }
+
+char intersect(coord_t p, figure_t f, double grain)
+{
+    p = inv_translate_point(p, f.centre);
+	p = inv_rotate_point(p, f.angle);
+	if(f.type == CERCLE){
+		if(pow(p.x,2) + pow(p.y,2) <= f.cercle.r )
+			return f.color.c;
+	}else if(f.type == RECTANGLE){
+		if(fabs(p.x) <= f.rectangle.w && fabs(p.y) <= f.rectangle.h)
+			return f.color.c;
+	}else if(f.type == LIGNE){
+		if(fabs(p.x) <= f.line.l && fabs(p.y) <= grain)
+			return f.color.c;
+	}
+	return 0;
+}
+
+
+
+

@@ -10,10 +10,14 @@
 
 #define prl { printf("\n"); }
 
-typedef char* color_t;
+typedef struct color_s{
+	double r;
+	double g;
+	double b;
+	char c;
+}color_t;
 
-typedef struct coord_s
-{
+typedef struct coord_s{
     double x;
     double y;
 }coord_t;
@@ -70,6 +74,18 @@ typedef struct	image_s
 	unsigned	size;
 }image_t;
 
+//**********************prototype**********************
+void print_coord(coord_t c);
+coord_t coordinate(double x, double y);
+coord_t inv_translate_point(coord_t p, coord_t v);
+coord_t inv_rotate_point(coord_t p, double t);
+figure_t circle(double radius);
+figure_t rectangle(double width, double height);
+figure_t line(double length);
+figure_t color(figure_t f, char c);
+figure_t translate(figure_t f, double dx, double dy);
+figure_t rotate(figure_t f, double dt);
+char intersect(coord_t p, figure_t f, double grain);
 
 
 #endif
