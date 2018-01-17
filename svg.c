@@ -86,8 +86,7 @@ figure_t rotate(figure_t f, double dt){
     return f;
 }
 
-char intersect(coord_t p, figure_t f, double grain)
-{
+char intersect(coord_t p, figure_t f, double grain){
     p = inv_translate_point(p, f.centre);
 	p = inv_rotate_point(p, f.angle);
 	if(f.type == CERCLE){
@@ -103,6 +102,23 @@ char intersect(coord_t p, figure_t f, double grain)
 	return 0;
 }
 
+image_t create_image(unsigned int width, unsigned int height, double grain){
+  image_t image;
+  image.w = width;
+  image.h = height;
+  image.g = grain;
+  image.size = 0;
+  return image;
+}
 
-
-
+image_t append(image_t img, figure_t* f) {
+  if(img.size==0){
+    img.size++;
+    img.figures = (figure_t**)malloc(1 * sizeof(figure_t*));
+  }else{
+    img.size++;
+    img.figures = (figure_t**)realloc(img.figures, img.size * sizeof(figure_t*));
+    img.figures[img.size] = f;
+  }
+  return img;
+}
