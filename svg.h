@@ -8,6 +8,8 @@
 #include<unistd.h>
 #include<math.h>
 
+#define prl { printf("\n"); }
+
 typedef char* color_t;
 
 typedef struct coord_s
