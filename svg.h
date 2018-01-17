@@ -7,6 +7,7 @@
 #include<string.h>
 #include<unistd.h>
 #include<math.h>
+#include"xml.h"
 
 #define prl { printf("\n"); }
 
@@ -65,8 +66,7 @@ typedef struct	figure_s{
     };
 }figure_t;
 
-typedef struct	image_s
-{
+typedef struct	image_s{
 	unsigned int w; //width
 	unsigned int h; //height
 	double g;
@@ -74,11 +74,17 @@ typedef struct	image_s
 	unsigned	size;
 }image_t;
 
-//**********************prototype**********************
+typedef struct svg_s{
+    xelement_t *e;
+    image_t im;
+}svg_t;
+
 void print_coord(coord_t c);
 coord_t coordinate(double x, double y);
 coord_t inv_translate_point(coord_t p, coord_t v);
 coord_t inv_rotate_point(coord_t p, double t);
+
+
 figure_t circle(double radius);
 figure_t rectangle(double width, double height);
 figure_t line(double length);
@@ -86,6 +92,18 @@ figure_t color(figure_t f, char c);
 figure_t translate(figure_t f, double dx, double dy);
 figure_t rotate(figure_t f, double dt);
 char intersect(coord_t p, figure_t f, double grain);
+image_t image(unsigned int width, unsigned int height, double grain);
+image_t append(image_t img, figure_t f);
+image_t prepend(image_t img, figure_t f);
+void paint(image_t img);
 
+svg_t xml_to_svg(xelement_t *e);
+svg_t rectangle_in_svg(svg_t s, xattribute_t *a);
+svg_t cercle_in_svg(svg_t s, xattribute_t *a);
+svg_t line_in_svg(svg_t s, xattribute_t *a);
+svg_t text_in_svg(svg_t s, xattribute_t *a);
+int   try_to_translate(xattribute_t *a,double *x,double *y);
+int   try_to_rotate(xattribute_t *a,double *r);
+int   try_to_scale(xattribute_t *a,double *sc);
 
 #endif

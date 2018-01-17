@@ -37,15 +37,25 @@ xattribute_t* add_xattribute(xelement_t* e, const char* name, const char* value)
     return new;
 }
 
+char* get_attribute_value(xattribute_t *a, char* str){
+  xattribute_t *tmp = a;
+  while (tmp != NULL){
+    if (strcmp(tmp->nom,str) == 0)
+      return tmp->valeur;
+    tmp = tmp->next;
+  }
+    return NULL;
+}
+
 void add_sub_xelement(xelement_t* e, xelement_t* s){
     /* ajoute élément s fils de e ; verif que s n'a pas de père */
-    if(s!= NULL && s->pere == NULL && (e == NULL || e->type != RAW)){ 
+    if(s!= NULL && s->pere == NULL && (e == NULL || e->type != RAW)){
         s->pere = e;
-		if(e == NULL)
-			return;
-        if(e->contenu->fils == NULL)
-            e->contenu->fils = s;
-        else {
+    if(e == NULL)
+        return;
+    if(e->contenu->fils == NULL)
+        e->contenu->fils = s;
+    else {
 			xelement_t *tmp = e->contenu->fils;
             while(tmp->frere != NULL)
                 tmp = tmp->frere;
@@ -66,7 +76,7 @@ void add_raw(xelement_t* e, const char* r){
 		exit(0);
 }
 
-void delete_xelement(xelement_t* e){ 
+void delete_xelement(xelement_t* e){
     if(e-> pere == NULL) {
         free(e);
     }
@@ -162,7 +172,7 @@ char* next_word(FILE* fd){
             i++;
         }ungetc(r,fd);
         if(i == 0){
-            printf("vide %c\n",r); 
+            printf("vide %c\n",r);
             return NULL;
 		}
         w[i] = '\0';
@@ -207,91 +217,14 @@ void    print_xelement(xelement_t* e)
     printf("print_xelement\n");
     save_xelement(stdout, e);
 }
-/*
-int     espacement(char c)
-{
-    if (c == ' ' || c == '\n' || c == '\r' || c == '\t')
-        return 1;
-    return 0;
-}
 
-char    next_char(FILE *fd)
-{
-    char c = '\0';
-    c = fgetc(fd);
-    while (espacement(c) == 1)
-    {
-        if (c == EOF)
-            quitter("fin de fichier","next_char");
-        c = fgetc(fd);
-    }
-    if (c == '\0')
-        quitter("c'est impossible","next_char");
-    return c;
-}
-
-void    check_next_char(FILE *fd, char c)
-{
-    char ch;
-    ch = next_char(fd);
-    if (ch != c)
-        quitter("","check_next_char");
-}
-
-bool    is_next_char(FILE* fd, char c, bool cons)
-{
-    char ch;
-    ch = next_char(fd);
-    if (ch != c || cons == false)
-        ungetc(ch , fd);
-    if (ch != c)
-        return false;
-    return true;
-}
-
-char*   next_word(FILE* fd)
-{
-    char*   word;
-    int     i;
-    char    c;
-
-    if ((word = (char*)malloc(BUFF_SIZE * sizeof(char))) == NULL)
-        quitter("malloc","next_word");
-    i = 0;
-    c = next_char(fd);
-    if (c == '<' || c == '>' || c == '/') {
-        ungetc(c, fd);
-        return NULL;
-    }
-    ungetc(c, fd);
-    do {
-        word[i] = fgetc(fd);
-        c = word[i];
-        i++;
-        if ((i % BUFF_SIZE) == 0)
-            if ((word = (char*)realloc(word, i + 1024)) == NULL)
-                quitter("malloc","next_word");
-    } while(c != '<' && c != '>' && c != '/' && c != '=' && espacement(c) != 1);
-    ungetc(c, fd);
-    word[i - 1] = '\0';
-    return word;
-}
-
-void    check_next_word(FILE* fd, const char* w)
-{
-    char*   str = next_word(fd);
-
-    if (strcmp(str, w) != 0)
-        quitter("","check_next_word");
-}
-*/
 char*   next_string(FILE* fd)
 {
     char*   str;
     char    c;
     int     i;
 
-    if ((str = (char*)malloc(BUFF_SIZE * sizeof(char))) == NULL) 
+    if ((str = (char*)malloc(BUFF_SIZE * sizeof(char))) == NULL)
     //          quitter("malloc","next_string");
             exit(1);
     i = 0;
@@ -382,7 +315,7 @@ xelement_t* load_xelement(FILE* fd, const char* end_tag) {
         check_next_word(fd,end_tag);
         check_next_char(fd,'>');
         return NULL;
-    }   
+    }
     char* name = next_word(fd);
     if (name == NULL) {
         fprintf(stderr, "load_xelement: tag name expected\n");
@@ -396,7 +329,7 @@ xelement_t* load_xelement(FILE* fd, const char* end_tag) {
         add_xattribute(e,name,value);
     }
     c = next_char(fd);
-    
+
     if (c == '/') {
         check_next_char(fd,'>');
         return e;

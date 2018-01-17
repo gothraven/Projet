@@ -52,5 +52,6 @@ bool is_next_char(FILE* fd, char c, bool cons);
 char* next_word(FILE* fd);
 void check_next_word(FILE* fd, const char* w);
 char* next_raw(FILE* fd);
+char* get_attribute_value(xattribute_t* a, char* str);
 
 #endif
