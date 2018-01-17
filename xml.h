@@ -1,8 +1,12 @@
+#ifndef XML_H
+#define XML_H
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <math.h>
 #include <stdbool.h>
+
+#define BUFF_SIZE 100
 
 typedef struct xattribute xattribute_t;
 typedef struct xelement xelement_t;
@@ -48,3 +52,5 @@ bool is_next_char(FILE* fd, char c, bool cons);
 char* next_word(FILE* fd);
 void check_next_word(FILE* fd, const char* w);
 char* next_raw(FILE* fd);
+
+#endif
