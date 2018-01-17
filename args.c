@@ -1,12 +1,20 @@
 #include "args.h"
 
+args_t* arg_Void(args_t* arg, const char* key, void (*fun)(void)){
+  args_t* ar = (args_t*)malloc(sizeof(args_t));
+  ar->key = key;
+  ar->type = ArgVoid;
+  ar->fun.arg_void = fun;
+  ar->next = arg;
+  return ar;
+}
 
 args_t* arg_String(args_t* arg, const char* key, void (*fun)(const char*)){
   args_t* ar = (args_t*)malloc(sizeof(args_t));
   ar->key = key;
   ar->type = ArgString;
   ar->fun.arg_string = fun;
-  ar->next = arg
+  ar->next = arg;
   return ar;
 }
 
@@ -55,17 +63,19 @@ args_t* arg_Int_Float_Float(args_t* arg, const char* key, void (*fun)(int, float
   return ar;
 }
 
-void launchArgs(args_t* l, int argc, char ** argv){
+void launchArgs(args_t* l, int argc, const char ** argv){
   int i;
   int nb1;
-  float f1, f2,;
+  float f1, f2;
   args_t* tmp;
-  printf("\n");
   for(i = 1; i < argc ; i++){
     tmp = l;
     while(tmp != NULL){
-      if(strcmp(tmp->keyword, argv[i]) == 0){
+      if(strcmp(tmp->key, argv[i]) == 0){
         switch (tmp->type){
+          case ArgVoid:
+            tmp->fun.arg_void();
+            break;
           case ArgString:
             tmp->fun.arg_string(argv[i+1]);
             i++;
@@ -96,7 +106,7 @@ void launchArgs(args_t* l, int argc, char ** argv){
             nb1 = atoi(argv[i+1]);
             f1 = atoi(argv[i+2]);
             f2 = atof(argv[i+3]);
-            tmp->fun.arg_int_float_float(nb1,f2,f3);
+            tmp->fun.arg_int_float_float(nb1,f1,f2);
             i+=3;
             break;
           default: printf("Arguments not found");
@@ -108,34 +118,53 @@ void launchArgs(args_t* l, int argc, char ** argv){
   }
 }
 
-void projectArgs(int argc, char** argv){
-
-  args_t* arg = NOOPTION;
-
-//  arg = arg_String(arg, "-i", argOpen);
-//  arg = arg_String(arg, "-o", argSave);
-//  arg = arg_Float(arg, "-c", argCircle);
-  arg = opt_void(arg, "-r", optReverse);
-  arg = opt_2unsignedInt(arg, "-c", optCrop);
-  arg = opt_float(arg, "-s",optScale);
-  arg = opt_unsignedInt(arg, "-vp",optVolumeUp);
-  arg = opt_unsignedInt(arg, "-vd",optVolumeDown);
-  arg = opt_void(arg, "-h",optHelp);
-
-  process_arguments(arg, argc, argv);
-
-  free(opt);
-
+void projectArgs(int argc, const char** argv){
+  args_t* arg = NULL;
+  arg = arg_String(arg, "-i", argOpen);
+  arg = arg_String(arg, "-o", argSave);
+  arg = arg_Float(arg, "-c", argCircle);
+  arg = arg_Float_Float(arg, "-r", argRect);
+  arg = arg_Float(arg, "-l", argLine);
+  arg = arg_String(arg, "-x",argText);
+  arg = arg_String(arg, "-j",argPhoto);
+  arg = arg_Void(arg, "-h",argHelp);
+  launchArgs(arg, argc, argv);
+  free(arg);
 }
 
-void argOpen(char* fname) {
+void argOpen(const char* fname){
   printf("ouvrir %s\n",fname);
 }
 
-void argSave(char* fname) {
+void argSave(const char* fname){
   printf("sauvgarder %s\n",fname);
 }
 
-void argCircle(float r) {
+void argCircle(float r){
   printf("cirlce de rayon %f\n",r);
 }
+
+void argRect(float w, float h){
+  printf("rectangle en %f %f\n",w ,h);
+}
+
+void argLine(float l){
+  printf("line en %f\n",l);
+}
+
+void argText(const char* text){
+  printf("text: %s\n",text);
+}
+
+void argPhoto(const char* fname){
+  printf("photo: %s\n",fname);
+}
+
+void argHelp(void){
+  printf("-i + nom_de_fichier : charge en image courante limage contenue dans le fichier de nom nom_de_fichier\n-o + nom_de_fichier : sauvegarde limage courante dans le fichier de nom nom_de_fichier\n-c + flottant : ajoute un cercle centre en (0,0) avec le rayon donne\n-r + flottant + flottant : ajoute un rectangle centre en (0,0) avec les dimensions données\n-l + flottant : ajoute une ligne horizontale centre en (0,0) de longueur donnee\n-x + texte_entre_guillement : ajoute le texte donne à la position (0,0)\n-j + nom_fichier : ajoute limage contenu dans le fichier a la position (0,0)\n");
+}
+
+/*int main(int argc, char const *argv[]) {
+  projectArgs(argc, argv);
+  return 0;
+}*/

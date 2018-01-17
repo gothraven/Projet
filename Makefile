@@ -12,7 +12,7 @@ xml.o: xml.c xml.h
 args.o: args.c args.h
 menu.o: menu.c menu.h
 pdf.o: pdf.c pdf.h
-main.o: main.c pdf.h menu.h
+main.o: main.c pdf.h menu.h args.h xml.h
 
 %.o: %.c
 	$(CC) -o $@ -c $< $(CFLAGS)
