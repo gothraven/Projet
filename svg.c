@@ -157,3 +157,22 @@ image_t append(image_t img, figure_t f){
   }
   return img;
 }
+
+void paint(image_t img) {
+  int i;
+  for (double x = 0; x < img.height; x+=img.grain) {
+    for (double y = 0; y < img.width; y +=(img.grain*2)){
+      i = 0;
+      while (i < img.cpt){
+        if((img.figures[i].type < TEXTE) && intersect(coordinate(y, x), img.figures[i], img.grain))
+          break;
+        i++;
+      }
+      if (i == img.cpt)
+        printf(" ");
+      else
+        printf("%c",img.figures[i].color);
+    }
+    printf("\n");
+  }
+}
