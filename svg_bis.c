@@ -1,4 +1,20 @@
 #include"svg.h"
+/*
+svg_t rectangle_in_svg(svg_t s,xattribute_t* a){
+  figure_t* f = NULL;
+  f = (figure_t*)malloc(sizeof(figure_t));
+  char* tmp = get_attribute_value(a,"fill");
+  f = get_color(f,tmp);
+  double x = 0;
+  double y = 0;
+  tmp = get_attribute_value(a->nom,"transform");
+  if(tmp != NULL){
+
+  }
+
+
+  s.im = append(s.im,f);
+}*/
 
 svg_t xml_to_svg_(svg_t s,xelement_t *e, double tx, double ty, double rotate, double scale){
   if(e == NULL)
