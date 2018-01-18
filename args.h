@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "svg.h"
+#include "xml.h"
 
 typedef struct args_s{
   const char* key;

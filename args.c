@@ -187,7 +187,7 @@ void argLine(float l){
 
 void argText(const char* string){
   if (file_exist) {
-    figure_t f = text(string, "Times-Roman", 3);
+    figure_t f = text((char*)string, "Times-Roman", 3);
     svg.im = append(svg.im, f);
   }else{
     printf("il n'exist pas de fichier ouvert\n");
@@ -196,7 +196,7 @@ void argText(const char* string){
 
 void argPhoto(const char* fname){
   if (file_exist) {
-    figure_t f = photo(fname, 400, 400);
+    figure_t f = photo((char*)fname, 400, 400);
     svg.im = append(svg.im, f);
   }else{
     printf("il n'exist pas de fichier ouvert\n");
