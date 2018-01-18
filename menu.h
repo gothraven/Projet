@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include "svg.h"
 #include "xml.h"
+#include "math.h"
 
 typedef struct action {
   char* title;
