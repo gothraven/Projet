@@ -113,7 +113,7 @@ svg_t rectangle_in_svg(svg_t s,xattribute_t* a){printf("rectangle_in_svg\n");
   double r = 0;
   double sc = 0;
 
-  super_double(a, "whidth", &w);
+  super_double(a, "width", &w);
   super_double(a, "height", &h);
   f = rectangle(w,h); // creer le rectangle en 0,0
 
@@ -282,6 +282,7 @@ pdf_t*	svg_to_pdf(svg_t s){
 	str = strcat(str,"q 1 0 0 -1 0 520 cm");
 	for(unsigned i = 0; i < s.im.size; i++){
 		f = s.im.tab[i];
+		content = "";
 		double x = f.centre.x;
 		double y = f.centre.y;
 		double ro = f.angle;
@@ -289,19 +290,20 @@ pdf_t*	svg_to_pdf(svg_t s){
 			printf("cercle\n");
 			content = ajout_cercle_pdfbis(x,y,0,0,f.cercle.r,0,1,0);
 		}else if (f.type == RECTANGLE){printf("rectangle\n");
-			content = ajout_rectangle_pdfbis(x,y,0,0,ro,0,1,0,f.rectangle.w,f.rectangle.h);
+      content = ajout_rectangle_pdfbis(0,0,x + f.rectangle.w + 1000, y + f.rectangle.h, ro, 1, 0, 0,f.rectangle.w*2 ,f.rectangle.h*2 );
 		}else if (f.type == LIGNE){printf("line\n");
 			double t = f.line.l;
-			content = ajout_line_pdfbis(0,0,x + t,y,x-t,y,ro,0,1,0,10);
+			printf("%f  %f  %f\n",ro,x,y);
+			content = ajout_line_pdfbis(0,0, 120, y, 170,y,0,0,0,1,10);
 		}
 		str = strcat(str,content);
 	}
 	str = strcat(str," Q ");
-	pdf_t* p = pdf_create(2, s.im.w,s.im.h);
-	pdf_set_content(p,1,str);
+	printf("w=%u h%df\n",s.im.w,520);
+	pdf_t* p = pdf_create(1, s.im.w,520);
+	pdf_set_content(p,0,str);
 	pdf_save("oooooo.pdf",p);
 	//pdf_delete(p);
 	return p;
 
 }
-
