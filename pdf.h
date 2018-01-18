@@ -105,5 +105,6 @@ size_t pdf_new_id(pdf_t* p);
 void pdf_save(const char* fname, pdf_t* p);
 const char* pdf_load_image(pdf_t* p, const char* fname);
 void pdf_set_content(pdf_t* p, unsigned int n, const char* instr);
+pdf_t* pdf_create(unsigned int nb, float w, float h);
 
 #endif
