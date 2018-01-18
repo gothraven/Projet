@@ -8,7 +8,7 @@ your projects.
 ## Getting started
 
 ```shell
-curl https://raw.githubusercontent.com/jehna/readme-best-practices/master/README-default.md > README.md
+git clone https://github.com/gothraven/Projet.git
 ```
 
 ## Launche
