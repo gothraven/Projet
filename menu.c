@@ -171,8 +171,8 @@ void sauvgarder_svg(){
     printf("nom de ficher: ");
     scanf("%s",fname);
     if(strstr(fname, ".svg")!=NULL){
-      printf("%s\n", fname);
-      //save en svg
+      save_xml(fname, svg.e);
+      file_exist = false;
     }
   }else{
     printf("il n'exist pas de fichier ouvert\n");
@@ -188,6 +188,7 @@ void sauvgarder_pdf(){
     if(strstr(fname, ".pdf")!=NULL){
       printf("%s\n", fname);
       //save en pdf
+      file_exist = false;
     }
   }else{
     printf("il n'exist pas de fichier ouvert\n");
@@ -225,8 +226,10 @@ void ajouter_circle(){
     double r = 0;
     printf("rayon: ");
     scanf("%lf", &r);
-    printf("ajouter un circle avec (%lf,%lf) %lf\n",x,y,r);
-    //imprimer les info
+    figure_t f = circle(r);
+    f.centre.x = x;
+    f.centre.y = y;
+    svg.im = append(svg.im, f);
   }else{
     printf("il n'exist pas de fichier ouvert\n");
   }
@@ -247,8 +250,10 @@ void ajouter_rect(){
     double h = 0;
     printf("hauteur: ");
     scanf("%lf", &h);
-    printf("ajouter un rectangle avec (%lf,%lf) w=%lf h=%lf\n",x,y,w,h);
-    //imprimer les info
+    figure_t f = rectangle(w, h);
+    f.centre.x = x;
+    f.centre.y = y;
+    svg.im = append(svg.im, f);
   }else{
     printf("il n'exist pas de fichier ouvert\n");
   }
@@ -272,8 +277,9 @@ void ajouter_line(){
     double g = 0;
     printf("grain: ");
     scanf("%lf", &g);
-    printf("ajouter un ligne avec (%lf,%lf) -> (%lf,%lf) grain=%lf\n",x1,y1,x2,y2,g);
-    //imprimer les info
+    double length = sqrt(((x2 - x1)*(x2 - x1)) + ((y2 - y1)*(y2 - y1)));
+    figure_t f = line(length);
+    svg.im = append(svg.im, f);
   }else{
     printf("il n'exist pas de fichier ouvert\n");
   }
@@ -285,11 +291,14 @@ void ajouter_text(){
     char text[1024];
     printf("text: ");
     scanf("%s", text);
+    char font[1024];
+    printf("font: ");
+    scanf("%s", font);
     unsigned int size = 0;
     printf("size: ");
     scanf("%u", &size);
-    printf("ajouter un ligne avec (%s) size=%u\n",text, size);
-    //imprimer les info
+    figure_t f = text(text, font, size);
+    svg.im = append(svg.im, f);
   }else{
     printf("il n'exist pas de fichier ouvert\n");
   }
@@ -301,8 +310,14 @@ void ajouter_image(){
     char image[1024];
     printf("image: ");
     scanf("%s", image);
-    printf("ajouter un ligne avec (%s)\n",image);
-    //imprimer les info
+    unsigned int w = 0;
+    printf("longeur: ")
+    scanf("%u", &w);
+    unsigned int h = 0;
+    printf("largeur: ")
+    scanf("%u", &h);
+    figure_t f = photo(image, w, h);
+    svg.im = append(svg.im, f);
   }else{
     printf("il n'exist pas de fichier ouvert\n");
   }
@@ -315,8 +330,8 @@ void supprimer() {
     unsigned int id = 0;
     printf("ID: ");
     scanf("%u", &id);
-    printf("supprimer (%u)\n",id);
-    //imprimer les info
+    if(id>0 && id<=svg.im.size)
+      svg.im.tab[i-1].type = 0;
   }else{
     printf("il n'exist pas de fichier ouvert\n");
   }
@@ -335,8 +350,8 @@ void translater() {
     double ty = 0;
     printf("ty: ");
     scanf("%lf", &ty);
-    printf("translater (%u) avec (%lf,%lf)\n",id, tx, ty);
-    //imprimer les info
+    if(id>0 && id<=svg.im.size)
+      svg.im.tab[i-1] = translate(svg.im.tab[i-1], tx, ty);
   }else{
     printf("il n'exist pas de fichier ouvert\n");
   }
@@ -352,8 +367,8 @@ void tourner() {
     double r = 0;
     printf("tourner: ");
     scanf("%lf", &r);
-    printf("tourner (%u) avec (%lf)\n",id, r);
-    //imprimer les info
+    if(id>0 && id<=svg.im.size)
+      svg.im.tab[i-1] = rotate(svg.im.tab[i-1], r);
   }else{
     printf("il n'exist pas de fichier ouvert\n");
   }
@@ -369,8 +384,8 @@ void etirer() {
     double s = 0;
     printf("etirer: ");
     scanf("%lf", &s);
-    printf("etirer (%u) avec (%lf)\n",id, s);
-    //imprimer les info
+    if(id>0 && id<=svg.im.size)
+      svg.im.tab[i-1].scale *= s;
   }else{
     printf("il n'exist pas de fichier ouvert\n");
   }
