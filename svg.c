@@ -38,7 +38,7 @@ figure_t circle(double radius){
   figure.angle = 0;
   figure.scale = 1;
   figure.type = CERCLE;
-  figure.cercle.r = radius * radius;
+  figure.cercle.r = radius;
   return figure;
 }
 
@@ -218,15 +218,15 @@ char* strskipe(const char *src, const char *dst)
 }
 
 void cercle_info(figure_t f){
-  printf("cercle\n");
+  printf("cercle\n rayon =%f\n",f.cercle.r);
 }
 
 void line_info(figure_t f){
-  printf("line\n");
+  printf("line\n length= %f\n",f.line.l);
 }
 
 void text_info(figure_t f){
-  printf("text\n");
+  printf("text\ntext = %s\n",f.text.string);
 }
 
 void rectangle_info(figure_t f){

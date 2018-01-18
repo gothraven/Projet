@@ -238,3 +238,70 @@ int  super_double(xattribute_t *a,char* str,double *x){
     x = 0;
   return 0;
 }
+#define pi  3.14159265359
+
+char	*ajout_cercle_pdfbis(double tx, double ty, double cx, double cy, double r, double rg1, double rg2, double rg3)
+{
+	char *res;
+	//              rg1 rg2 rg3    cx cy      tx ty    r      r
+	asprintf(&res," q %f %f %f rg 1 %f %f 1 %f %f cm %f 0 0 %f 0 0 cm"
+			" -1 0 m -1 0.553 -0.553 1 0 1 c 0.553 1 1 0.553 1 0 c 1 -0.553 0.553"
+			" -1 0 -1 c -0.553 -1 -1 -0.553 -1 0 c F Q",rg1,rg2,rg3,cx,cy,tx,ty,r,r);
+	printf("%s\n",res);
+	return res;
+}
+
+char	*ajout_rectangle_pdfbis(double tx, double ty, double cx, double cy, double ro, double rg1, double rg2, double rg3,double w,double h)
+{
+	char *res;
+	//              rg1 rg2 rg3    cx cy      tx ty    r      r
+	asprintf(&res," q %f %f %f rg 1 0 0 1 %f %f cm %f %f %f %f 0 0 cm %f %f %f %f re F Q"
+			,rg1,rg2,rg3,tx,ty,  cos(ro*pi/180), cos(ro*pi/180), sin(-1 * ro * pi / 180), sin(ro*pi/180),
+			cx,cy,w,h);
+	printf("%s\n",res);
+	return res;
+}
+
+char	*ajout_line_pdfbis(double tx, double ty, double x1, double y1,double x2,double y2, double ro, double rg1, double rg2, double rg3,double gr)
+{
+	char *res;
+	//                 rg1 rg2 rg3          tx ty    r      r
+	asprintf(&res,"q %f w %f %f %f RG 1 0 0 1 %f %f cm %f %f %f %f 0 0 cm %f %f m %f %f l S Q"
+			,gr,rg1,rg2,rg3,tx,ty,  cos(ro*pi/180), sin(ro*pi/180), sin(-1 * ro * pi / 180),cos(ro*pi/180),
+			x1,y1,x2,y2);
+	printf("%s\n",res);
+	return res;
+}
+
+
+pdf_t*	svg_to_pdf(svg_t s){
+	figure_t f;
+	char* content = NULL;
+	char* str = malloc(10024);
+	*str = '\0';
+	str = strcat(str,"q 1 0 0 -1 0 520 cm");
+	for(unsigned i = 0; i < s.im.size; i++){
+		f = s.im.tab[i];
+		double x = f.centre.x;
+		double y = f.centre.y;
+		double ro = f.angle;
+		if (f.type == CERCLE){
+			printf("cercle\n");
+			content = ajout_cercle_pdfbis(x,y,0,0,f.cercle.r,0,1,0);
+		}else if (f.type == RECTANGLE){printf("rectangle\n");
+			content = ajout_rectangle_pdfbis(x,y,0,0,ro,0,1,0,f.rectangle.w,f.rectangle.h);
+		}else if (f.type == LIGNE){printf("line\n");
+			double t = f.line.l;
+			content = ajout_line_pdfbis(0,0,x + t,y,x-t,y,ro,0,1,0,10);
+		}
+		str = strcat(str,content);
+	}
+	str = strcat(str," Q ");
+	pdf_t* p = pdf_create(2, s.im.w,s.im.h);
+	pdf_set_content(p,1,str);
+	pdf_save("oooooo.pdf",p);
+	//pdf_delete(p);
+	return p;
+
+}
+

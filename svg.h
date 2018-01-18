@@ -8,6 +8,7 @@
 #include<unistd.h>
 #include<math.h>
 #include <ctype.h>
+#include"pdf.h"
 #include"xml.h"
 
 #define prl { printf("\n"); }
@@ -113,5 +114,6 @@ int super_double(xattribute_t *a,char* str,double *x);
 double distance(double x,double y,double x2,double y2);
 void image_info(image_t im);
 char* strskipe(const char *src, const char *dst);
+pdf_t*	svg_to_pdf(svg_t s);
 
 #endif
