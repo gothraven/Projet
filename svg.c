@@ -230,7 +230,7 @@ void text_info(figure_t f){
 }
 
 void rectangle_info(figure_t f){
-  printf("rectangle\n");
+  printf("rectangle\n whidth =%f height =%f",f.rectangle.w,f.rectangle.h);
 }
 
 void image_info(image_t im)
