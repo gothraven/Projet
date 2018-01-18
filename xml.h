@@ -52,6 +52,7 @@ bool is_next_char(FILE* fd, char c, bool cons);
 char* next_word(FILE* fd);
 void check_next_word(FILE* fd, const char* w);
 char* next_raw(FILE* fd);
+void print_xelement(xelement_t* e);
 char* get_attribute_value(xattribute_t* a, char* str);
 xelement_t* load_xml(const char* fname);
 

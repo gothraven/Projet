@@ -119,7 +119,6 @@ void save_xelement(FILE* fd, xelement_t* e)
             fputc('\n',fd);
             }
 		if (e->frere != NULL)
-			printf("frerede %s = %s\n",e->nom, e->frere->nom);
 		save_xelement(fd, e->frere);
     }
 }
@@ -172,11 +171,10 @@ char* next_word(FILE* fd){
             i++;
         }ungetc(r,fd);
         if(i == 0){
-            printf("vide %c\n",r);
+            //printf("vide %c\n",r);
             return NULL;
 		}
         w[i] = '\0';
-        printf("word=%s\n",w);
         return w;
 }
 
@@ -201,7 +199,7 @@ char* next_raw(FILE* fd){
         exit(0);
     ungetc(r,fd);
     c[i] = '\0';
-    printf("raw = %s\n",c );
+    //printf("raw = %s\n",c );
     return c;
 }
 
@@ -214,7 +212,7 @@ void save_xml(const char *fname, xelement_t* e){
 #define BUFF_SIZE 100
 void    print_xelement(xelement_t* e)
 {
-    printf("print_xelement\n");
+    //printf("print_xelement\n");
     save_xelement(stdout, e);
 }
 
@@ -245,7 +243,7 @@ char*   next_string(FILE* fd)
         }
     } while (c != '"');
     str[i - 1] = '\0';
-    printf("string = %s\n",str );
+    //printf("string = %s\n",str );
     return str;
 }
 /*
@@ -284,7 +282,7 @@ void    load_xelement_raw(FILE* fd, xelement_t* e) {
     check_next_char(fd, '/');
     check_next_word(fd, e->nom);
     check_next_char(fd, '>');
-    printf("%s***************************\n",w);
+    //printf("%s***************************\n",w);
     add_raw(e,w);
     free(w);
 }
@@ -344,7 +342,7 @@ xelement_t* load_xelement(FILE* fd, const char* end_tag) {
 
 xelement_t* load_xml(const char* fname)
 {
-    printf("load_xml debut\n");
+    //printf("load_xml debut\n");
     FILE* fd = fopen(fname, "r");
     if (fd == NULL)
         printf("probleme\n");

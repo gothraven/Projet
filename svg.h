@@ -106,9 +106,10 @@ svg_t xml_to_svg(xelement_t *e);
 svg_t rectangle_in_svg(svg_t s, xattribute_t *a);
 svg_t cercle_in_svg(svg_t s, xattribute_t *a);
 svg_t line_in_svg(svg_t s, xattribute_t *a);
-svg_t text_in_svg(svg_t s, xattribute_t *a);//
+svg_t text_in_svg(svg_t s, xattribute_t *a, char *str);//
 void get_transforms(xattribute_t* a, double *tx,double* ty,double *r,double* sc);//
 int super_double(xattribute_t *a,char* str,double *x);
 double distance(double x,double y,double x2,double y2);
+void image_info(image_t im);
 
 #endif

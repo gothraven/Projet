@@ -178,6 +178,7 @@ void paint(image_t img) {
     }
     printf("\n");
   }
+  image_info(img);
 }
 
 void get_transforms(xattribute_t* att,double *tx,double *ty,double *r, double *scale){
@@ -193,4 +194,41 @@ void get_transforms(xattribute_t* att,double *tx,double *ty,double *r, double *s
     *r = 0;
     *scale = 1;
   }
+}
+
+void cercle_info(figure_t f){
+	printf("cercle\n");
+}
+
+void line_info(figure_t f){
+	printf("line\n");
+}
+
+void text_info(figure_t f){
+	printf("text\n");
+}
+
+void rectangle_info(figure_t f){
+    printf("rectangle\n");
+}
+
+void image_info(image_t im)
+{
+	figure_t f;
+	printf("taille (%d, %d) grain =%f \n nombre de fig%d\n",im.w,im.h,im.g,im.size);
+	for(unsigned int i = 0; i < im.size; i++){
+		printf("\n\n==============================\n\n");
+		f = im.tab[i];
+		printf("figure numero %d \ntype = %d\n centre = ",i+1,f.type);
+		print_coord(f.centre);
+		printf("color = %c angle %f scale = %f\n",f.color.c,f.angle,f.scale);
+		if(f.type == CERCLE)
+			cercle_info(f);
+		if(f.type == RECTANGLE)
+			rectangle_info(f);
+		if(f.type == LIGNE)
+			line_info(f);
+		if(f.type == TEXTE)
+			text_info(f);
+	}
 }
