@@ -36,6 +36,7 @@ figure_t circle(double radius){
     figure.centre.x = 0;
     figure.centre.y = 0;
     figure.angle = 0;
+    figure.scale = 1;
     figure.type = CERCLE;
     figure.cercle.r = radius * radius;
     return figure;
@@ -50,6 +51,7 @@ figure_t rectangle(double width, double height){
     figure.centre.x = 0;
     figure.centre.y = 0;
     figure.angle = 0;
+    figure.scale = 1;
     figure.type = RECTANGLE;
     figure.rectangle.w = width / 2;
     figure.rectangle.h = height / 2;
@@ -65,8 +67,40 @@ figure_t line(double length){
     figure.centre.x = 0;
     figure.centre.y = 0;
     figure.angle = 0;
+    figure.scale = 1;
     figure.type = LIGNE;
     figure.line.l = length;
+    return figure;
+}
+
+figure_t text(char* string, char* font, unsigned int fontsize){
+    figure_t figure;
+    figure.color.r = 0;
+    figure.color.g = 0;
+    figure.color.b = 0;
+    figure.color.c = '+';
+    figure.centre.x = 0;
+    figure.centre.y = 0;
+    figure.angle = 0;
+    figure.scale = 1;
+    figure.type = TEXTE;
+    figure.text.fontsize = fontsize;
+    return figure;
+}
+
+figure_t photo(char* fname, unsigned int w, unsigned int h){
+    figure_t figure;
+    figure.color.r = 0;
+    figure.color.g = 0;
+    figure.color.b = 0;
+    figure.color.c = '+';
+    figure.centre.x = 0;
+    figure.centre.y = 0;
+    figure.angle = 0;
+    figure.scale = 1;
+    figure.type = PHOTO;
+    figure.photo.w = w;
+    figure.photo.h = h;
     return figure;
 }
 
@@ -121,16 +155,5 @@ image_t append(image_t img, figure_t f){
     img.figures = (figure_t*)realloc(img.figures, img.size * sizeof(figure_t));
     img.figures[img.size-1] = f;
   }
-  return img;
-}
-
-image_t appendd(image_t img, figure_t* f) {
-  if(img.size == 0){
-    img.figures = (figure_t**)malloc(1 * sizeof(figure_t*));
-  }else{
-    img.figures = (figure_t**)realloc(img.figures, (img.size + 1) * sizeof(figure_t*));
-    }
-    img.figures[img.size] = f;
-    img.size++;
   return img;
 }

@@ -37,26 +37,28 @@ typedef struct line_s{
 }line_t;
 
 typedef struct photo_s{
-    char     *name;
+    char* fname;
+    char* w;
+    char* h;
 }photo_t;
 
 typedef struct text_s{
-    char     *name;
-
+    char *string;
+    char* font;
+    unsigned int fontsize;
 }text_t;
 
 typedef struct	figure_s{
     color_t color;
     coord_t centre;
     double angle;
-	double scale;
+    double scale;
     enum {
-        RIEN,
-        CERCLE,
+        CERCLE = 1,
         RECTANGLE,
         LIGNE,
-        PHOTO,
-        GROUPE
+        TEXTE,
+        PHOTO
     } type;
     union {
       circle_t cercle;
@@ -89,6 +91,8 @@ coord_t inv_rotate_point(coord_t p, double t);
 figure_t circle(double radius);
 figure_t rectangle(double width, double height);
 figure_t line(double length);
+figure_t text(char* string, char* font, unsigned int fontsize);
+figure_t photo(char* fname, unsigned int w, unsigned int h);
 figure_t color(figure_t f, char c);
 figure_t get_color(figure_t f,char* str);
 figure_t translate(figure_t f, double dx, double dy);
