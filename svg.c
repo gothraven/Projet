@@ -123,3 +123,14 @@ image_t append(image_t img, figure_t f){
   }
   return img;
 }
+
+image_t appendd(image_t img, figure_t* f) {
+  if(img.size == 0){
+    img.figures = (figure_t**)malloc(1 * sizeof(figure_t*));
+  }else{
+    img.figures = (figure_t**)realloc(img.figures, (img.size + 1) * sizeof(figure_t*));
+    }
+    img.figures[img.size] = f;
+    img.size++;
+  return img;
+}

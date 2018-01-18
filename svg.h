@@ -62,7 +62,7 @@ typedef struct	figure_s{
       rectangle_t rectangle;
       line_t line;
       text_t text;
-    	photo_t photo;
+      photo_t photo;
     };
 }figure_t;
 
@@ -89,6 +89,7 @@ figure_t circle(double radius);
 figure_t rectangle(double width, double height);
 figure_t line(double length);
 figure_t color(figure_t f, char c);
+figure_t *get_color(figure_t* f,char* str);
 figure_t translate(figure_t f, double dx, double dy);
 figure_t rotate(figure_t f, double dt);
 char intersect(coord_t p, figure_t f, double grain);
