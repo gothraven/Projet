@@ -148,12 +148,12 @@ image_t create_image(unsigned int width, unsigned int height, double grain){
 image_t append(image_t img, figure_t f){
   if(img.size==0){
     img.size++;
-    img.figures = (figure_t*)malloc(1 * sizeof(figure_t));
-    img.figures[0] = f;
+    img.tab = (figure_t*)malloc(1 * sizeof(figure_t));
+    img.tab[0] = f;
   }else{
     img.size++;
-    img.figures = (figure_t*)realloc(img.figures, img.size * sizeof(figure_t));
-    img.figures[img.size-1] = f;
+    img.tab = (figure_t*)realloc(img.tab, img.size * sizeof(figure_t));
+    img.tab[img.size-1] = f;
   }
   return img;
 }
@@ -164,15 +164,30 @@ void paint(image_t img) {
     for (double y = 0; y < img.width; y +=(img.grain*2)){
       i = 0;
       while (i < img.cpt){
-        if((img.figures[i].type < TEXTE) && intersect(coordinate(y, x), img.figures[i], img.grain))
+        if((img.tab[i].type < TEXTE) && intersect(coordinate(y, x), img.tab[i], img.grain))
           break;
         i++;
       }
       if (i == img.cpt)
         printf(" ");
       else
-        printf("%c",img.figures[i].color);
+        printf("%c",img.tab[i].color);
     }
     printf("\n");
+  }
+}
+
+void get_transforms(xattribute_t* att,double *tx,double *ty,double *r, double *scale){
+  char* transform = get_attribute_value(att,"transform");
+  if(transform!=NULL){
+      *tx = 0;
+      *ty = 0;
+      *r = 0;
+      *scale = 0;
+  }else{
+    *tx = 0;
+    *ty = 0;
+    *r = 0;
+    *scale = 0;
   }
 }
