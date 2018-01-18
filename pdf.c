@@ -249,7 +249,7 @@ size_t  pdf_stream_fprint(FILE* fd, pdf_stream_t* stream){
   nb += pdf_fprint_object(fd, stream->dict);
   nb += fprintf(fd, "stream\n");
   nb += fwrite(stream->valeur, stream->size, sizeof(char), fd);
-  nb += fprintf(fd, "endstream");
+  nb += fprintf(fd, "endstream\n");
   return nb;
 }
 
