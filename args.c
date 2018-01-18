@@ -134,15 +134,19 @@ void projectArgs(int argc, const char** argv){
 
 void argOpen(const char* fname){
   if(strstr(fname, ".svg")!=NULL){
-      printf("ouvrir %s\n",fname);
-    //on va convertir la svg
+    xelement_t* xml = load_xml(fname);
+    if(xml==NULL){
+      exit(EXIT_FAILURE);
+    }
+    svg = xml_to_svg(xml);
+    file_exist = true;
   }else{
     printf("c'est pas un fichier .svg\n");
   }
 }
 
 void argSave(const char* fname){
-  if (true/* svg pas null */) {
+  if (file_exist) {
     if(strstr(fname, ".pdf")!=NULL){
       printf("sauvgarder %s\n",fname);
       //save en svg
@@ -155,40 +159,45 @@ void argSave(const char* fname){
 }
 
 void argCircle(float r){
-  if (true/* svg pas null */) {
-    printf("cirlce de rayon %f\n",r);
+  if (file_exist) {
+    figure_t f = circle(r);
+    svg.im = append(svg.im, f);
   }else{
     printf("il n'exist pas de fichier ouvert\n");
   }
 }
 
 void argRect(float w, float h){
-  if (true/* svg pas null */) {
-    printf("rectangle en %f %f\n",w ,h);
+  if (file_exist) {
+    figure_t f = rectangle(w, h);
+    svg.im = append(svg.im, f);
   }else{
     printf("il n'exist pas de fichier ouvert\n");
   }
 }
 
 void argLine(float l){
-  if (true/* svg pas null */) {
-    printf("line en %f\n",l);
+  if (file_exist) {
+    figure_t f = line(l);
+    svg.im = append(svg.im, f);
   }else{
     printf("il n'exist pas de fichier ouvert\n");
   }
 }
 
-void argText(const char* text){
-  if (true/* svg pas null */) {
-    printf("text: %s\n",text);
+void argText(const char* string){
+  if (file_exist) {
+    figure_t f = text(string, "Times-Roman", 3);
+    svg.im = append(svg.im, f);
   }else{
     printf("il n'exist pas de fichier ouvert\n");
   }
 }
 
 void argPhoto(const char* fname){
-  if (true/* svg pas null */) {
-    printf("photo: %s\n",fname);
+  if (file_exist) {
+    figure_t f = photo(fname, 400, 400);
+    svg.im = append(svg.im, f);
   }else{
     printf("il n'exist pas de fichier ouvert\n");
   }

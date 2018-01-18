@@ -198,12 +198,12 @@ void sauvgarder_pdf(){
 
 void information(){
   if(file_exist){
-    printf("imprimer les info\n");
-    //imprimer les info
+    printf("SVG info\n");
+    image_info(svg.im);
   }else{
     printf("il n'exist pas de fichier ouvert\n");
   }
-  sleep(1);
+  sleep(3);
 }
 
 void affichage(){

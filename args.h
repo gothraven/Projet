@@ -29,7 +29,8 @@ typedef struct args_s{
   struct args_s* next;
 }args_t;
 
-//extern svg_t* svg;
+extern svg_t svg;
+extern bool file_exist;
 
 args_t* arg_String(args_t* arg, const char* key, void (*fun)(const char*));
 args_t* arg_Float(args_t* arg, const char* key, void (*fun)(float));
