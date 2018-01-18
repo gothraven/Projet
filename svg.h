@@ -107,10 +107,12 @@ svg_t xml_to_svg(xelement_t *e);
 svg_t rectangle_in_svg(svg_t s, xattribute_t *a);
 svg_t cercle_in_svg(svg_t s, xattribute_t *a);
 svg_t line_in_svg(svg_t s, xattribute_t *a);
-svg_t text_in_svg(svg_t s, xattribute_t *a);
-int   get_transforms(xattribute_t* a, double *tx,double* ty,double *r,double* sc);
-int   try_to_translate(xattribute_t *a,double *x,double *y);
-int   try_to_rotate(xattribute_t *a,double *r);
-int   try_to_scale(xattribute_t *a,double *sc);
+svg_t text_in_svg(svg_t s, xattribute_t *a);//
+int   get_transforms(xattribute_t* a, double *tx,double* ty,double *r,double* sc);//
+//int   try_to_translate(xattribute_t *a,double *x,double *y);
+//int   try_to_rotate(xattribute_t *a,double *r);
+//int   try_to_scale(xattribute_t *a,double *sc);
+int  super_double(xattribute_t *a,char* str,double *x);
+double distance(double x,double y,double x2,double y2);
 
 #endif
