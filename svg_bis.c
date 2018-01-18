@@ -5,7 +5,9 @@ figure_t  add_transforms(figure_t f,double x, double y, double r, double sc){
   f.centre.x += x;
   f.centre.y += y;
   f.angle += r;
-  f.scale += sc;
+  if(sc != 0)
+    f.scale *= sc;
+  printf("%f--%f--\n",sc,f.scale);
   return f;
 }
 
@@ -179,24 +181,27 @@ svg_t xml_to_svg_(svg_t s,xelement_t *e, double tx, double ty, double rotate, do
 	printf("x %f y %f r %f, sc %f\n",x,y,r,sc);
     get_transforms(e->attributs,&x,&y,&r,&sc);
 	printf("x %f y %f r %f, sc %f\n",x,y,r,sc);
-    s =xml_to_svg_(s,e->contenu->fils,tx + x, ty + y, rotate + r, scale + sc);
+    s =xml_to_svg_(s,e->contenu->fils,tx + x, ty + y, rotate + r, scale * sc);
   }
   else if(strcmp(e->nom,"rect") == 0){
     s= rectangle_in_svg(s,e->attributs);
+   s.im.tab[s.im.size - 1] = add_transforms(s.im.tab[s.im.size - 1],tx,ty,rotate,scale);
   }else if(strcmp(e->nom,"circle") == 0){
     s= cercle_in_svg(s,e->attributs);
+    s.im.tab[s.im.size - 1] = add_transforms(s.im.tab[s.im.size - 1],tx,ty,rotate,scale);
   }else if(strcmp(e->nom,"line") == 0){
     s= line_in_svg(s,e->attributs);
+    s.im.tab[s.im.size - 1] = add_transforms(s.im.tab[s.im.size - 1],tx,ty,rotate,scale);
   }else if(strcmp(e->nom,"text") == 0){
-    if(e->type == RAW)
+    if(e->type == RAW){
       s= text_in_svg(s,e->attributs,e->contenu->raw);
-    else{
-		printf("RAW\n");
+    s.im.tab[s.im.size - 1] = add_transforms(s.im.tab[s.im.size - 1],tx,ty,rotate,scale);
+    }else{
+      printf("RAW\n");
       exit(0);}
-  }/*else if(strcmp(e->nom,"image")){
-    s= cercle_in_svg(s,e->attributs);
-  }*/else{
-	  printf("nom %s\n",e->nom);
+  }
+  else{
+    printf("nom %s\n",e->nom);
   }
 printf("wetfgh\n");
   return xml_to_svg_(s,e->frere,tx,ty,rotate,scale);
@@ -219,7 +224,7 @@ svg_t xml_to_svg(xelement_t *e){
     printf("Attention ce n'est sans doute pas un svg%s\n",e->nom);
   s.im = image(w,h,1);
   printf("/**************************************/\n");
-  return xml_to_svg_(s,e->contenu->fils,0,0,0,0);
+  return xml_to_svg_(s,e->contenu->fils,0,0,0,1);
 }
 
 int  super_double(xattribute_t *a,char* str,double *x){
