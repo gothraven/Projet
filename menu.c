@@ -186,8 +186,8 @@ void sauvgarder_pdf(){
     printf("nom de ficher: ");
     scanf("%s",fname);
     if(strstr(fname, ".pdf")!=NULL){
-      printf("%s\n", fname);
-      //save en pdf
+      pdf_t* pdf = svg_to_pdf(svg);
+      pdf_save(fname, pdf);
       file_exist = false;
     }
   }else{

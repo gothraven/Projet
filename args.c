@@ -148,8 +148,8 @@ void argOpen(const char* fname){
 void argSave(const char* fname){
   if (file_exist) {
     if(strstr(fname, ".pdf")!=NULL){
-      printf("sauvgarder %s\n",fname);
-      //save en svg
+      pdf_t* pdf = svg_to_pdf(svg);
+      pdf_save(fname, pdf);
     }else{
       printf("c'est pas un fichier .pdf\n");
     }
