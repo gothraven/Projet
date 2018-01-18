@@ -111,14 +111,15 @@ image_t create_image(unsigned int width, unsigned int height, double grain){
   return image;
 }
 
-image_t append(image_t img, figure_t* f) {
+image_t append(image_t img, figure_t f){
   if(img.size==0){
     img.size++;
-    img.figures = (figure_t**)malloc(1 * sizeof(figure_t*));
+    img.figures = (figure_t*)malloc(1 * sizeof(figure_t));
+    img.figures[0] = f;
   }else{
     img.size++;
-    img.figures = (figure_t**)realloc(img.figures, img.size * sizeof(figure_t*));
-    img.figures[img.size] = f;
+    img.figures = (figure_t*)realloc(img.figures, img.size * sizeof(figure_t));
+    img.figures[img.size-1] = f;
   }
   return img;
 }
