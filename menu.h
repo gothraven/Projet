@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include "svg.h"
+#include "xml.h"
 
 typedef struct action {
   char* title;
@@ -33,7 +34,8 @@ typedef struct menu_s {
   int size;
 } menu_t;
 
-//extern svg_t* svg;
+extern svg_t svg;
+extern bool file_exist;
 
 menu_t* createMenu(const char* text);
 void addMenuAction(menu_t* m, const char* text, void(*f)());

@@ -160,15 +160,15 @@ image_t append(image_t img, figure_t f){
 
 void paint(image_t img) {
   int i;
-  for (double x = 0; x < img.height; x+=img.grain) {
-    for (double y = 0; y < img.width; y +=(img.grain*2)){
+  for (double x = 0; x < img.h; x+=img.g) {
+    for (double y = 0; y < img.w; y +=(img.g*2)){
       i = 0;
-      while (i < img.cpt){
-        if((img.tab[i].type < TEXTE) && intersect(coordinate(y, x), img.tab[i], img.grain))
+      while (i < img.size){
+        if((img.tab[i].type < TEXTE) && intersect(coordinate(y, x), img.tab[i], img.g))
           break;
         i++;
       }
-      if (i == img.cpt)
+      if (i == img.size)
         printf(" ");
       else
         printf("%c",img.tab[i].color);
@@ -188,6 +188,6 @@ void get_transforms(xattribute_t* att,double *tx,double *ty,double *r, double *s
     *tx = 0;
     *ty = 0;
     *r = 0;
-    *scale = 0;
+    *scale = 1;
   }
 }

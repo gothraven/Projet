@@ -100,7 +100,6 @@ figure_t rotate(figure_t f, double dt);
 char intersect(coord_t p, figure_t f, double grain);
 image_t image(unsigned int width, unsigned int height, double grain);
 image_t append(image_t img, figure_t f);
-image_t prepend(image_t img, figure_t f);
 void paint(image_t img);
 
 svg_t xml_to_svg(xelement_t *e);
@@ -108,11 +107,8 @@ svg_t rectangle_in_svg(svg_t s, xattribute_t *a);
 svg_t cercle_in_svg(svg_t s, xattribute_t *a);
 svg_t line_in_svg(svg_t s, xattribute_t *a);
 svg_t text_in_svg(svg_t s, xattribute_t *a);//
-int   get_transforms(xattribute_t* a, double *tx,double* ty,double *r,double* sc);//
-//int   try_to_translate(xattribute_t *a,double *x,double *y);
-//int   try_to_rotate(xattribute_t *a,double *r);
-//int   try_to_scale(xattribute_t *a,double *sc);
-int  super_double(xattribute_t *a,char* str,double *x);
+void get_transforms(xattribute_t* a, double *tx,double* ty,double *r,double* sc);//
+int super_double(xattribute_t *a,char* str,double *x);
 double distance(double x,double y,double x2,double y2);
 
 #endif

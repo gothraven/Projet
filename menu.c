@@ -147,13 +147,17 @@ void fin(){
 }
 
 void ouvrir(){
-  if(true/*svg est null*/){
+  if(!file_exist){
     char fname[100];
     printf("nom de ficher: ");
     scanf("%s",fname);
     if(strstr(fname, ".svg")!=NULL){
       printf("%s\n", fname);
-      //on va convertir la svg
+      xelement_t* xml = load_xml(fname);
+      if(xml==NULL)
+        exit(EXIT_FAILURE);
+      svg = xml_to_svg(xml);
+      file_exist = true;
     }
   }else{
     printf("il exist deja un ficher svg\n");
@@ -162,7 +166,7 @@ void ouvrir(){
 }
 
 void sauvgarder_svg(){
-  if(true/*svg n'est pas null*/){
+  if(file_exist){
     char fname[100];
     printf("nom de ficher: ");
     scanf("%s",fname);
@@ -177,7 +181,7 @@ void sauvgarder_svg(){
 }
 
 void sauvgarder_pdf(){
-  if(true/*svg n'est pas null*/){
+  if(file_exist){
     char fname[100];
     printf("nom de ficher: ");
     scanf("%s",fname);
@@ -192,7 +196,7 @@ void sauvgarder_pdf(){
 }
 
 void information(){
-  if(true/*svg n'est pas null*/){
+  if(file_exist){
     printf("imprimer les info\n");
     //imprimer les info
   }else{
@@ -202,9 +206,8 @@ void information(){
 }
 
 void affichage(){
-  if(true/*svg n'est pas null*/){
-    printf("afficher en ascii\n");
-    //imprimer les info
+  if(file_exist){
+    paint(svg.im);
   }else{
     printf("il n'exist pas de fichier ouvert\n");
   }
@@ -212,7 +215,7 @@ void affichage(){
 }
 
 void ajouter_circle(){
-  if(true/*svg n'est pas null*/){
+  if(file_exist){
     double x = 0;
     printf("x: ");
     scanf("%lf", &x);
@@ -231,7 +234,7 @@ void ajouter_circle(){
 }
 
 void ajouter_rect(){
-  if(true/*svg n'est pas null*/){
+  if(file_exist){
     double x = 0;
     printf("x: ");
     scanf("%lf", &x);
@@ -253,7 +256,7 @@ void ajouter_rect(){
 }
 
 void ajouter_line(){
-  if(true/*svg n'est pas null*/){
+  if(file_exist){
     double x1 = 0;
     printf("x1: ");
     scanf("%lf", &x1);
@@ -278,7 +281,7 @@ void ajouter_line(){
 }
 
 void ajouter_text(){
-  if(true/*svg n'est pas null*/){
+  if(file_exist){
     char text[1024];
     printf("text: ");
     scanf("%s", text);
@@ -294,7 +297,7 @@ void ajouter_text(){
 }
 
 void ajouter_image(){
-  if(true/*svg n'est pas null*/){
+  if(file_exist){
     char image[1024];
     printf("image: ");
     scanf("%s", image);
@@ -307,7 +310,7 @@ void ajouter_image(){
 }
 
 void supprimer() {
-  if(true/*svg n'est pas null*/){
+  if(file_exist){
     //afficher tous les figures avec leur id
     unsigned int id = 0;
     printf("ID: ");
@@ -321,7 +324,7 @@ void supprimer() {
 }
 
 void translater() {
-  if(true/*svg n'est pas null*/){
+  if(file_exist){
     //afficher tous les figures avec leur id
     unsigned int id = 0;
     printf("ID: ");
@@ -341,7 +344,7 @@ void translater() {
 }
 
 void tourner() {
-  if(true/*svg n'est pas null*/){
+  if(file_exist){
     //afficher tous les figures avec leur id
     unsigned int id = 0;
     printf("ID: ");
@@ -358,7 +361,7 @@ void tourner() {
 }
 
 void etirer() {
-  if(true/*svg n'est pas null*/){
+  if(file_exist){
     //afficher tous les figures avec leur id
     unsigned int id = 0;
     printf("ID: ");
