@@ -55,5 +55,6 @@ char* next_raw(FILE* fd);
 void print_xelement(xelement_t* e);
 char* get_attribute_value(xattribute_t* a, char* str);
 xelement_t* load_xml(const char* fname);
+void save_xml(const char *fname, xelement_t* e);
 
 #endif

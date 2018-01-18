@@ -7,6 +7,7 @@
 #include<string.h>
 #include<unistd.h>
 #include<math.h>
+#include <ctype.h>
 #include"xml.h"
 
 #define prl { printf("\n"); }
@@ -43,7 +44,7 @@ typedef struct photo_s{
 }photo_t;
 
 typedef struct text_s{
-    char *string;
+    char* string;
     char* font;
     unsigned int fontsize;
 }text_t;
@@ -111,5 +112,6 @@ void get_transforms(xattribute_t* a, double *tx,double* ty,double *r,double* sc)
 int super_double(xattribute_t *a,char* str,double *x);
 double distance(double x,double y,double x2,double y2);
 void image_info(image_t im);
+char* strskipe(const char *src, const char *dst);
 
 #endif

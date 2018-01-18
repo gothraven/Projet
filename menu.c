@@ -288,16 +288,16 @@ void ajouter_line(){
 
 void ajouter_text(){
   if(file_exist){
-    char text[1024];
-    printf("text: ");
-    scanf("%s", text);
+    char string[1024];
+    printf("string: ");
+    scanf("%s", string);
     char font[1024];
     printf("font: ");
     scanf("%s", font);
     unsigned int size = 0;
     printf("size: ");
     scanf("%u", &size);
-    figure_t f = text(text, font, size);
+    figure_t f = text(string, font, size);
     svg.im = append(svg.im, f);
   }else{
     printf("il n'exist pas de fichier ouvert\n");
@@ -311,10 +311,10 @@ void ajouter_image(){
     printf("image: ");
     scanf("%s", image);
     unsigned int w = 0;
-    printf("longeur: ")
+    printf("longeur: ");
     scanf("%u", &w);
     unsigned int h = 0;
-    printf("largeur: ")
+    printf("largeur: ");
     scanf("%u", &h);
     figure_t f = photo(image, w, h);
     svg.im = append(svg.im, f);
@@ -331,7 +331,7 @@ void supprimer() {
     printf("ID: ");
     scanf("%u", &id);
     if(id>0 && id<=svg.im.size)
-      svg.im.tab[i-1].type = 0;
+      svg.im.tab[id-1].type = 0;
   }else{
     printf("il n'exist pas de fichier ouvert\n");
   }
@@ -351,7 +351,7 @@ void translater() {
     printf("ty: ");
     scanf("%lf", &ty);
     if(id>0 && id<=svg.im.size)
-      svg.im.tab[i-1] = translate(svg.im.tab[i-1], tx, ty);
+      svg.im.tab[id-1] = translate(svg.im.tab[id-1], tx, ty);
   }else{
     printf("il n'exist pas de fichier ouvert\n");
   }
@@ -368,7 +368,7 @@ void tourner() {
     printf("tourner: ");
     scanf("%lf", &r);
     if(id>0 && id<=svg.im.size)
-      svg.im.tab[i-1] = rotate(svg.im.tab[i-1], r);
+      svg.im.tab[id-1] = rotate(svg.im.tab[id-1], r);
   }else{
     printf("il n'exist pas de fichier ouvert\n");
   }
@@ -385,7 +385,7 @@ void etirer() {
     printf("etirer: ");
     scanf("%lf", &s);
     if(id>0 && id<=svg.im.size)
-      svg.im.tab[i-1].scale *= s;
+      svg.im.tab[id-1].scale *= s;
   }else{
     printf("il n'exist pas de fichier ouvert\n");
   }
