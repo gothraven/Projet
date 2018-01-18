@@ -38,8 +38,8 @@ typedef struct line_s{
 
 typedef struct photo_s{
     char* fname;
-    char* w;
-    char* h;
+    unsigned int w;
+    unsigned int h;
 }photo_t;
 
 typedef struct text_s{

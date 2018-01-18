@@ -84,6 +84,8 @@ figure_t text(char* string, char* font, unsigned int fontsize){
     figure.angle = 0;
     figure.scale = 1;
     figure.type = TEXTE;
+    figure.text.string = string;
+    figure.text.font = font;
     figure.text.fontsize = fontsize;
     return figure;
 }
@@ -99,6 +101,7 @@ figure_t photo(char* fname, unsigned int w, unsigned int h){
     figure.angle = 0;
     figure.scale = 1;
     figure.type = PHOTO;
+    figure.photo.fname = fname;
     figure.photo.w = w;
     figure.photo.h = h;
     return figure;
@@ -136,7 +139,7 @@ char intersect(coord_t p, figure_t f, double grain){
 	return 0;
 }
 
-image_t create_image(unsigned int width, unsigned int height, double grain){
+image_t image(unsigned int width, unsigned int height, double grain){
   image_t image;
   image.w = width;
   image.h = height;
@@ -159,7 +162,7 @@ image_t append(image_t img, figure_t f){
 }
 
 void paint(image_t img) {
-  int i;
+  unsigned int i;
   for (double x = 0; x < img.h; x+=img.g) {
     for (double y = 0; y < img.w; y +=(img.g*2)){
       i = 0;
@@ -171,7 +174,7 @@ void paint(image_t img) {
       if (i == img.size)
         printf(" ");
       else
-        printf("%c",img.tab[i].color);
+        printf("%c",img.tab[i].color.c);
     }
     printf("\n");
   }
