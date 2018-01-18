@@ -49,6 +49,7 @@ typedef struct	figure_s{
     color_t color;
     coord_t centre;
     double angle;
+	double scale;
     enum {
         RIEN,
         CERCLE,
@@ -70,7 +71,7 @@ typedef struct	image_s{
 	unsigned int w; //width
 	unsigned int h; //height
 	double g;
-	figure_t**	tab;
+	figure_t*	tab;
 	unsigned	size;
 }image_t;
 
@@ -89,7 +90,7 @@ figure_t circle(double radius);
 figure_t rectangle(double width, double height);
 figure_t line(double length);
 figure_t color(figure_t f, char c);
-figure_t *get_color(figure_t* f,char* str);
+figure_t get_color(figure_t f,char* str);
 figure_t translate(figure_t f, double dx, double dy);
 figure_t rotate(figure_t f, double dt);
 char intersect(coord_t p, figure_t f, double grain);
@@ -103,6 +104,7 @@ svg_t rectangle_in_svg(svg_t s, xattribute_t *a);
 svg_t cercle_in_svg(svg_t s, xattribute_t *a);
 svg_t line_in_svg(svg_t s, xattribute_t *a);
 svg_t text_in_svg(svg_t s, xattribute_t *a);
+int   get_transforms(xattribute_t* a, double *tx,double* ty,double *r,double* sc);
 int   try_to_translate(xattribute_t *a,double *x,double *y);
 int   try_to_rotate(xattribute_t *a,double *r);
 int   try_to_scale(xattribute_t *a,double *sc);
