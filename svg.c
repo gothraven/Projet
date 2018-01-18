@@ -69,7 +69,7 @@ figure_t line(double length){
     figure.angle = 0;
     figure.scale = 1;
     figure.type = LIGNE;
-    figure.line.l = length;
+    figure.line.l = length / 2;
     return figure;
 }
 
