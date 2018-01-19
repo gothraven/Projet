@@ -342,11 +342,9 @@ xelement_t* load_xelement(FILE* fd, const char* end_tag) {
 
 xelement_t* load_xml(const char* fname)
 {
-    //printf("load_xml debut\n");
     FILE* fd = fopen(fname, "r");
     if (fd == NULL)
-        printf("probleme\n");
-    //  quitter("fd","load_xml");
+        exit(EXIT_FAILURE);
     xelement_t* e = load_xelement(fd, NULL);
     fclose(fd);
     return e;
