@@ -31,7 +31,7 @@ figure_t circle(double radius){
   figure_t figure;
   figure.color.r = 0;
   figure.color.g = 0;
-  figure.color.b = 0;
+  figure.color.b = 1;
   figure.color.c = '+';
   figure.centre.x = 0;
   figure.centre.y = 0;
@@ -45,7 +45,7 @@ figure_t circle(double radius){
 figure_t rectangle(double width, double height){
   figure_t figure;
   figure.color.r = 0;
-  figure.color.g = 0;
+  figure.color.g = 0.5;
   figure.color.b = 0;
   figure.color.c = '+';
   figure.centre.x = 0;
@@ -60,7 +60,7 @@ figure_t rectangle(double width, double height){
 
 figure_t line(double length){
   figure_t figure;
-  figure.color.r = 0;
+  figure.color.r = 1;
   figure.color.g = 0;
   figure.color.b = 0;
   figure.color.c = '+';
@@ -75,9 +75,9 @@ figure_t line(double length){
 
 figure_t text(char* string, char* font, unsigned int fontsize){
   figure_t figure;
-  figure.color.r = 0;
+  figure.color.r = 1;
   figure.color.g = 0;
-  figure.color.b = 0;
+  figure.color.b = 1;
   figure.color.c = '+';
   figure.centre.x = 0;
   figure.centre.y = 0;
@@ -93,8 +93,8 @@ figure_t text(char* string, char* font, unsigned int fontsize){
 figure_t photo(char* fname, unsigned int w, unsigned int h){
   figure_t figure;
   figure.color.r = 0;
-  figure.color.g = 0;
-  figure.color.b = 0;
+  figure.color.g = 1;
+  figure.color.b = 1;
   figure.color.c = '+';
   figure.centre.x = 0;
   figure.centre.y = 0;
