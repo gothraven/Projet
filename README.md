@@ -1,33 +1,24 @@
-# SVG to PDF
-> An application to convert SVG formate files to PDF files
+Groupe
+ - AKERMA Sofiane GR 1 L2Info U21313555
 
-One of the most crucial things in your open source project is the `README.md`
-file. This repository has a ready-to-copy-paste template you can use for all
-your projects.
+Launche
 
-## Getting started
+lancement du menu
 
-```shell
-git clone https://github.com/gothraven/Projet.git
-```
+  ./svg2pdf
 
-## Launche
+lancement avec argument
 
-Launching the menu
-```shell
-./svg2pdf
-```
-Launching withing arguments
-```shell
-./svg2pdf -h
-```
+  ./svg2pdf -h (h pour help)
 
-## Features
+NOTICE
 
-This project makes it easy to:
-* things it does
-* things it does
-* things it does
+les elements <svg> <text> <line> <rect> <circle> sont bien convertis en pdf
+mais les autres type ne le seront pas. 
 
-## Groupe
-NOM, Prenom GROUPE
+les fonctionalites qui ne sont pas faites:
+* je n'ai pas pu convertir les <image> en format pdf.
+* j'ai respecte que les svg de format donne dans l'ennoce du projet.
+
+
+il peu y avoir des bugs que j'a pas pu voir, soyez gentil avec mon programme.

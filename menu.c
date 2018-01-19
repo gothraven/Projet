@@ -152,7 +152,6 @@ void ouvrir(){
     printf("nom de ficher: ");
     scanf("%s",fname);
     if(strstr(fname, ".svg")!=NULL){
-      printf("%s\n", fname);
       xelement_t* xml = load_xml(fname);
       if(xml==NULL)
         exit(EXIT_FAILURE);
@@ -326,7 +325,7 @@ void ajouter_image(){
 
 void supprimer() {
   if(file_exist){
-    //afficher tous les figures avec leur id
+    image_info(svg.im);
     unsigned int id = 0;
     printf("ID: ");
     scanf("%u", &id);
@@ -340,7 +339,7 @@ void supprimer() {
 
 void translater() {
   if(file_exist){
-    //afficher tous les figures avec leur id
+    image_info(svg.im);
     unsigned int id = 0;
     printf("ID: ");
     scanf("%u", &id);
@@ -360,7 +359,7 @@ void translater() {
 
 void tourner() {
   if(file_exist){
-    //afficher tous les figures avec leur id
+    image_info(svg.im);
     unsigned int id = 0;
     printf("ID: ");
     scanf("%u", &id);
@@ -377,7 +376,7 @@ void tourner() {
 
 void etirer() {
   if(file_exist){
-    //afficher tous les figures avec leur id
+    image_info(svg.im);
     unsigned int id = 0;
     printf("ID: ");
     scanf("%u", &id);
